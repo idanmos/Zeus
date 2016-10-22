@@ -1,4 +1,4 @@
-class TaskManagmentHandler(self):
+class TaskManagmentHandler(object):
     # Handle tasks from server
 
     MINUTES_TO_FIRST_TASK = 5

