@@ -4,6 +4,7 @@ import platform
 import sys
 import time
 import ctypes
+import  DeviceIDGenerator
 
 def ram():
     kernel32 = ctypes.windll.kernel32
@@ -41,11 +42,11 @@ class DeviceInfoProvider:
 
     def getDeviceInfo():
         # Type of OS + Version
-        if platform.system().lower() == "Darwin".lower():
+        if platform.system().lower() == "darwin":
             deviceInfo["os"] = "Mac OS X"
-        elif platform.system().lower() == "Linux".lower():
+        elif platform.system().lower() == "linux":
             deviceInfo["os"] = "Linux"
-        elif platform.system().lower() == "Windows".lower():
+        elif platform.system().lower() == "windows":
             deviceInfo["os"] = "Windows"
 
         deviceInfo["release"] = platform.release()
@@ -66,7 +67,11 @@ class DeviceInfoProvider:
         deviceInfo["time"] = time.strftime("%H:%M:%S")
         deviceInfo["date"] = time.strftime("%d/%m/%Y")
 
+        # Device ID
+        deviceIdGen = DeviceIDGenerator.generateDeviceID()
+        deviceInfo["deviceID"] = deviceIdGen
+
+
     getDeviceInfo()
     print("Device info: %s" % deviceInfo)
-    print("Platform version: %s" % platform.system())
-    print("RAM: %s" % ram())
+    #print("RAM: %s" % ram())
