@@ -4,7 +4,8 @@ import platform
 import sys
 import time
 import ctypes
-import  DeviceIDGenerator
+import DeviceIDGenerator
+import subprocess
 
 def ram():
     kernel32 = ctypes.windll.kernel32
@@ -58,8 +59,8 @@ class DeviceInfoProvider:
             deviceInfo["cpuArchitecture"] = "32"
 
         # List of installed applications
-        installedApps = []
-        #deviceInfo["installedApps"] = getInstalledApps()
+        installedApps = subprocess.check_output(['ls', '-l', '/Applications']).splitlines()
+        deviceInfo["installedApps"] = installedApps
 
         # RAM (used and installed)
 
