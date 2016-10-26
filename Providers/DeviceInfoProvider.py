@@ -6,6 +6,7 @@ import time
 import ctypes
 import DeviceIDGenerator
 import subprocess
+import MemoryInfoProvider
 
 def ram():
     kernel32 = ctypes.windll.kernel32
@@ -63,6 +64,8 @@ class DeviceInfoProvider:
         deviceInfo["installedApps"] = installedApps
 
         # RAM (used and installed)
+        memory = MemoryInfoProvider.getMemory()
+        deviceInfo["memory"] = memory
 
         # Local Date & Time
         deviceInfo["time"] = time.strftime("%H:%M:%S")
