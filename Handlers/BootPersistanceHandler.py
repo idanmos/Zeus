@@ -19,6 +19,7 @@ except ImportError:
 
 # TODO: Change to WindowsBootPersistManager class
 # TODO: Explore infection to: "SYSTEM\CurrentControlSet\Services\Zeus" - load before many service applications and drivers
+# TODO: Explore infection to: "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run"
 
 class BootPersistanceHandler:
 

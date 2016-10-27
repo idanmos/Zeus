@@ -76,6 +76,35 @@ class DeviceInfoProvider:
         deviceInfo["deviceID"] = deviceIdGen
 
 
+    def getClipboardData(self):
+        clipboardData = None
+
+        if platform.system().lower() == "windows":
+            """import ctypes
+
+            CF_TEXT = 1
+
+            kernel32 = ctypes.windll.kernel32
+            user32 = ctypes.windll.user32
+
+            user32.OpenClipboard(0)
+            if user32.IsClipboardFormatAvailable(CF_TEXT):
+                data = user32.GetClipboardData(CF_TEXT)
+                data_locked = kernel32.GlobalLock(data)
+                text = ctypes.c_char_p(data_locked)
+                kernel32.GlobalUnlock(data_locked)
+
+                clipboardData = text.value
+            else:
+            user32.CloseClipboard()"""
+        elif platform.system().lower() == "darwin":
+            import subprocess
+
+            clipboardData = subprocess.check_output('pbpaste', env={'LANG': 'en_US.UTF-8'}).decode('utf-8')
+
+        return clipboardData
+
+
     getDeviceInfo()
-    print("Device info: %s" % deviceInfo)
+    #print("Device info: %s" % deviceInfo)
     #print("RAM: %s" % ram())
