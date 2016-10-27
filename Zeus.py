@@ -2,7 +2,6 @@
 
 # Core imports
 import urllib.request
-from threading import Thread
 
 # My imports
 from Handlers.BootPersistanceHandler import BootPersistanceHandler
