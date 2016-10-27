@@ -61,8 +61,16 @@ def getHardDiskSerialNumber():
             results = results.decode("UTF-8")
 
             return results
+    elif platform.system().lower() == "windows":
+        import subprocess
+        import os
 
-        return None
+        windowsDrive = os.environ["homedrive"]
+        command = r"vol %s" % windowsDrive
+        commandOutput = subprocess.check_output(command, shell=True).decode("UTF-8").split(" ")
+        results = commandOutput[-1]
+
+        return results
 
 def getComputerName():
     computerName = platform.node()

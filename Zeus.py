@@ -23,17 +23,6 @@ def loadConfigurations():
     configurations = {"social": socialConfigurations, "position": 1, "clipboard": 1, "password": 1, "screenshot": 1,
                           "camera": 1, "url": 1, "deviceInfo": 1}
 
-    #
-    # Device Info:
-    # -------------
-    # installed operating system version;
-    # CPU architecture (32 or 64 bit);
-    # RAM (used and installed);
-    # installed applications;
-    # info about the user logged in;
-    # info about local date/hours.
-    #
-
     # On error loading configurations, return false
     return True
 

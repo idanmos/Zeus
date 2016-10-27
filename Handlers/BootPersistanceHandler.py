@@ -179,6 +179,13 @@ class BootPersistanceHandler:
         pass
 
     #
+    # Disable Windows Defender
+    #
+
+    def disableWindowsDefender(self):
+        pass
+
+    #
     # Start here
     #
 

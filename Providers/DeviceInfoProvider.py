@@ -37,12 +37,12 @@ def ram():
         totalRam = str(mem) + ' MB'
     return (totalRam, availRam)
 
-class DeviceInfoProvider:
+class DeviceInfoProvider():
 
     global deviceInfo
     deviceInfo = {}
 
-    def getDeviceInfo():
+    def getDeviceInfo(self):
         # Type of OS + Version
         if platform.system().lower() == "darwin":
             deviceInfo["os"] = "Mac OS X"
@@ -51,7 +51,7 @@ class DeviceInfoProvider:
         elif platform.system().lower() == "windows":
             deviceInfo["os"] = "Windows"
 
-        deviceInfo["release"] = platform.release()
+            deviceInfo["release"] = platform.release()
 
         # 32/64 bit
         if sys.maxsize > 2**32:
@@ -60,8 +60,9 @@ class DeviceInfoProvider:
             deviceInfo["cpuArchitecture"] = "32"
 
         # List of installed applications
-        installedApps = subprocess.check_output(['ls', '-l', '/Applications']).splitlines()
-        deviceInfo["installedApps"] = installedApps
+        if platform.system().lower() == "darwin":
+            installedApps = subprocess.check_output(['ls', '-l', '/Applications']).splitlines()
+            deviceInfo["installedApps"] = installedApps
 
         # RAM (used and installed)
         memory = MemoryInfoProvider.getMemory()
@@ -75,12 +76,14 @@ class DeviceInfoProvider:
         deviceIdGen = DeviceIDGenerator.generateDeviceID()
         deviceInfo["deviceID"] = deviceIdGen
 
+        return deviceInfo
+
 
     def getClipboardData(self):
         clipboardData = None
 
         if platform.system().lower() == "windows":
-            """import ctypes
+            import ctypes
 
             CF_TEXT = 1
 
@@ -96,7 +99,7 @@ class DeviceInfoProvider:
 
                 clipboardData = text.value
             else:
-            user32.CloseClipboard()"""
+                user32.CloseClipboard()
         elif platform.system().lower() == "darwin":
             import subprocess
 
@@ -105,6 +108,11 @@ class DeviceInfoProvider:
         return clipboardData
 
 
-    getDeviceInfo()
     #print("Device info: %s" % deviceInfo)
     #print("RAM: %s" % ram())
+
+if __name__ == "__main__":
+    devInfoProvider = DeviceInfoProvider()
+
+    # print("Clipboard data: %s" % devInfoProvider.getClipboardData())
+    # print(devInfoProvider.getDeviceInfo())
