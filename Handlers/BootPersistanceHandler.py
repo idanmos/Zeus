@@ -15,8 +15,6 @@ except ImportError:
     except ImportError:
         winreg = None
 
-# Assuming Windows only
-
 # TODO: Change to WindowsBootPersistManager class
 # TODO: Explore infection to: "SYSTEM\CurrentControlSet\Services\Zeus" - load before many service applications and drivers
 # TODO: Explore infection to: "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run"
@@ -106,7 +104,7 @@ class BootPersistanceHandler:
             if result == value:
                 return True
 
-        return  False
+        return False
 
     def valuesToDict(self, key):
         # Convert a registry key's values to a dictionary
