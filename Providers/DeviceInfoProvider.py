@@ -29,13 +29,19 @@ def ram():
     kernel32.GlobalMemoryStatus(ctypes.byref(memoryStatus))
     mem = memoryStatus.dwTotalPhys / (1024 * 1024)
     availRam = memoryStatus.dwAvailPhys / (1024 * 1024)
+
+    print(memoryStatus)
+    print(memoryStatus.dwAvailPhys)
+    print(memoryStatus.dwAvailPhys / 1024)
+    print(memoryStatus.dwAvailPhys / (1024 * 1024))
+
     if mem >= 1000:
         mem = mem / 1000
         totalRam = str(mem) + ' GB'
     else:
         #        mem = mem/1000000
         totalRam = str(mem) + ' MB'
-    return (totalRam, availRam)
+    return str(totalRam) + '|' +str(availRam)
 
 class DeviceInfoProvider():
 
@@ -107,12 +113,7 @@ class DeviceInfoProvider():
 
         return clipboardData
 
-
-    #print("Device info: %s" % deviceInfo)
     #print("RAM: %s" % ram())
 
 if __name__ == "__main__":
-    devInfoProvider = DeviceInfoProvider()
-
-    # print("Clipboard data: %s" % devInfoProvider.getClipboardData())
-    # print(devInfoProvider.getDeviceInfo())
+    print(ram())
