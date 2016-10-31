@@ -4,51 +4,16 @@ import platform
 import sys
 import time
 import ctypes
-import DeviceIDGenerator
 import subprocess
-import MemoryInfoProvider
+import psutil
 
-def ram():
-    kernel32 = ctypes.windll.kernel32
-    c_ulong = ctypes.c_ulong
-
-    class MEMORYSTATUS(ctypes.Structure):
-        _fields_ = [
-            ('dwLength', c_ulong),
-            ('dwMemoryLoad', c_ulong),
-            ('dwTotalPhys', c_ulong),
-            ('dwAvailPhys', c_ulong),
-            ('dwTotalPageFile', c_ulong),
-            ('dwAvailPageFile', c_ulong),
-            ('dwTotalVirtual', c_ulong),
-            ('dwAvailVirtual', c_ulong)
-        ]
-
-    memoryStatus = MEMORYSTATUS()
-    memoryStatus.dwLength = ctypes.sizeof(MEMORYSTATUS)
-    kernel32.GlobalMemoryStatus(ctypes.byref(memoryStatus))
-    mem = memoryStatus.dwTotalPhys / (1024 * 1024)
-    availRam = memoryStatus.dwAvailPhys / (1024 * 1024)
-
-    print(memoryStatus)
-    print(memoryStatus.dwAvailPhys)
-    print(memoryStatus.dwAvailPhys / 1024)
-    print(memoryStatus.dwAvailPhys / (1024 * 1024))
-
-    if mem >= 1000:
-        mem = mem / 1000
-        totalRam = str(mem) + ' GB'
-    else:
-        #        mem = mem/1000000
-        totalRam = str(mem) + ' MB'
-    return str(totalRam) + '|' +str(availRam)
+from Providers import DeviceIDGenerator
 
 class DeviceInfoProvider():
 
-    global deviceInfo
-    deviceInfo = {}
-
     def getDeviceInfo(self):
+        deviceInfo = {}
+
         # Type of OS + Version
         if platform.system().lower() == "darwin":
             deviceInfo["os"] = "Mac OS X"
@@ -71,8 +36,12 @@ class DeviceInfoProvider():
             deviceInfo["installedApps"] = installedApps
 
         # RAM (used and installed)
-        memory = MemoryInfoProvider.getMemory()
-        deviceInfo["memory"] = memory
+        totalMemory = psutil.virtual_memory().total
+        availableMemory = psutil.virtual_memory().available
+
+        if totalMemory and availableMemory:
+            memory = {"total": totalMemory/1024/1024/1024, "available": availableMemory/1024/1024/1024}
+            deviceInfo["memory"] = memory
 
         # Local Date & Time
         deviceInfo["time"] = time.strftime("%H:%M:%S")
@@ -113,7 +82,5 @@ class DeviceInfoProvider():
 
         return clipboardData
 
-    #print("RAM: %s" % ram())
-
 if __name__ == "__main__":
-    print(ram())
+    print(DeviceInfoProvider().getDeviceInfo())
