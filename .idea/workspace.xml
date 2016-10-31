@@ -4,7 +4,6 @@
     <list default="true" id="82031c0e-dca4-4190-97b7-8c99038cf844" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Handlers/BootPersistanceHandler.py" afterPath="$PROJECT_DIR$/Handlers/BootPersistanceHandler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Providers/DeviceInfoProvider.py" afterPath="$PROJECT_DIR$/Providers/DeviceInfoProvider.py" />
     </list>
     <ignored path="IdanSpyware.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,8 +34,8 @@
       <file leaf-file-name="BootPersistanceHandler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Handlers/BootPersistanceHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="565">
-              <caret line="191" column="5" selection-start-line="191" selection-start-column="5" selection-end-line="191" selection-end-column="5" />
+            <state relative-caret-position="580">
+              <caret line="64" column="12" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -530,7 +529,14 @@
       <option name="project" value="LOCAL" />
       <updated>1477912481760</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Prepare macOs infection process">
+      <created>1477914671128</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1477914671128</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -574,7 +580,8 @@
     <MESSAGE value="Preparing to screenshot task" />
     <MESSAGE value="Code updates" />
     <MESSAGE value="Update read me" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update read me" />
+    <MESSAGE value="Prepare macOs infection process" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prepare macOs infection process" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -851,8 +858,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Handlers/BootPersistanceHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="565">
-          <caret line="191" column="5" selection-start-line="191" selection-start-column="5" selection-end-line="191" selection-end-column="5" />
+        <state relative-caret-position="580">
+          <caret line="64" column="12" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
           <folding />
         </state>
       </provider>
