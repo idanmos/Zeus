@@ -1,6 +1,0 @@
-[MESSAGES CONTROL]
-disable = locally-disabled, too-few-public-methods
-
-[REPORTS]
-output-format = colorized
-reports = no

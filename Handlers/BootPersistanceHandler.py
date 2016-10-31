@@ -4,6 +4,8 @@ import os.path
 import subprocess
 from shutil import copy
 
+from PIL import ImageGrab
+
 try:
     import _winreg as winreg
 

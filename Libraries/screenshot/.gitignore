@@ -1,8 +1,0 @@
-build/
-dist/
-MANIFEST
-.DS_Store
-*.orig
-*.png
-*.png.old
-*.pyc

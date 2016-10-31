@@ -1,15 +1,15 @@
 # Zeus
 
-Zeus is a cross platform spyware with strong self persistance ability and command & control server.
+Zeus is aim to be a cross platform spyware with strong persistence ability with command & control server (separate project).
 
 This project is for educational purposes only!
 
-### Current Abilities
-  - Infect Windows to strong persistance
-  - Gather device information - Need to confirm on Linux
-  - Take screenshots - cross platform (not yet implemented)
-  - Check server every X minutes if there's something to do
-  - Command Line/Terminal - cross platform
+### Current Abilities:
+ - [x] Infect Windows
+ - [x] Gather device information - Need to confirm on Linux
+ - [x] Take screenshots
+ - [x] Check server every X minutes if there's something to do
+ - [x] Command Line/Terminal - cross platform
 
 
 ### Command & Control
@@ -28,21 +28,27 @@ Download and extract the [latest pre-built release](https://github.com/idanmos/Z
 This is ongoing project and I'm welcome help in development
 
 #### Building for source
-Compile to target specific (Windows: pyinstaller, Linux: AnyIdeas?, Mac: AnyIdeas?).
-
+Compile to target specific:
+* Windows - pyinstaller
+* Linux - ?
+* macOS - ?
+ 
 
 ### Todo:
 
- - Disable Windows services during persistancy operation
- - Disable Windows Defender
- - Delete previous restore points in Windows
- - Keylogger - cross platform
- - Infect removable devices - cross platform
- - Mutex: make sure only one process is running - cross platform
- - Check if we're running on virtual machine (kill if we're) - cross platform
- - Ability to self update - cross platform
- - Ability to self delete - cross platform
- - Upload/Download files
+ - [ ] Disable Windows services during persistancy operation
+ - [ ] Disable Windows Defender
+ - [ ] Delete previous restore points in Windows
+ - [ ] Keylogger
+ - [ ] Infect removable devices
+ - [ ] Mutex: make sure only one process is running
+ - [ ] Check if we're running on virtual machine (kill if we're)
+ - [ ] Ability to self update
+ - [ ] Ability to self delete
+ - [ ] Upload/Download files
+ - [ ] Infect UEFI Bios to strong persistence to survive OS reinstall and hard disk format
+ - [ ] Steal cookies
+ - [ ] Steal passwords: Browsers, Outlook
 
 License
 ----
