@@ -79,8 +79,10 @@ class DeviceInfoProvider():
             import subprocess
 
             clipboardData = subprocess.check_output('pbpaste', env={'LANG': 'en_US.UTF-8'}).decode('utf-8')
+        elif platform.system().lower() == "linux":
+            pass
 
         return clipboardData
 
 if __name__ == "__main__":
-    print(DeviceInfoProvider().getDeviceInfo())
+    print("[i] Device information:\n------\n%s" % DeviceInfoProvider().getDeviceInfo())

