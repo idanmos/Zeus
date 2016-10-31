@@ -6,10 +6,12 @@ This project is for educational purposes only!
 
 ### Current Abilities:
  - [x] Infect Windows
+ - [ ] Infect Linux
+ - [ ] Infect macOS
  - [x] Gather device information - Need to confirm on Linux
  - [x] Take screenshots
  - [x] Check server every X minutes if there's something to do
- - [x] Command Line/Terminal - cross platform
+ - [x] Command Line/Terminal
 
 
 ### Command & Control
