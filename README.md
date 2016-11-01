@@ -13,6 +13,21 @@ This project is for educational purposes only!
  - [x] Check server every X minutes if there's something to do
  - [x] Command Line/Terminal
 
+### Todo:
+
+ - [ ] Disable Windows services during persistancy operation
+ - [ ] Disable Windows Defender
+ - [ ] Delete previous restore points in Windows
+ - [ ] Keylogger
+ - [ ] Infect removable devices
+ - [ ] Mutex: make sure only one process is running
+ - [ ] Check if we're running on virtual machine (kill if we're)
+ - [ ] Ability to self update
+ - [ ] Ability to self delete
+ - [ ] Upload/Download files
+ - [ ] Infect UEFI Bios to strong persistence to survive OS reinstall and hard disk format
+ - [ ] Steal cookies
+ - [ ] Steal passwords: Browsers, Outlook
 
 ### Command & Control
 Command and control server should be a whole new different project.
@@ -35,22 +50,6 @@ Compile to target specific:
 * Linux - ?
 * macOS - ?
  
-
-### Todo:
-
- - [ ] Disable Windows services during persistancy operation
- - [ ] Disable Windows Defender
- - [ ] Delete previous restore points in Windows
- - [ ] Keylogger
- - [ ] Infect removable devices
- - [ ] Mutex: make sure only one process is running
- - [ ] Check if we're running on virtual machine (kill if we're)
- - [ ] Ability to self update
- - [ ] Ability to self delete
- - [ ] Upload/Download files
- - [ ] Infect UEFI Bios to strong persistence to survive OS reinstall and hard disk format
- - [ ] Steal cookies
- - [ ] Steal passwords: Browsers, Outlook
 
 License
 ----

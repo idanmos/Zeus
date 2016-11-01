@@ -35,7 +35,7 @@
       <file leaf-file-name="BootPersistanceHandler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Handlers/BootPersistanceHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
+            <state relative-caret-position="625">
               <caret line="217" column="92" selection-start-line="217" selection-start-column="92" selection-end-line="217" selection-end-column="92" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -51,8 +51,8 @@
           </provider>
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="15">
-                <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+              <first_editor relative-caret-position="105">
+                <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -599,7 +599,14 @@
       <option name="project" value="LOCAL" />
       <updated>1478019208810</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Update read me">
+      <created>1478019253275</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1478019253275</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -642,10 +649,10 @@
     <MESSAGE value="Remote command line/terminal and read me updates" />
     <MESSAGE value="Preparing to screenshot task" />
     <MESSAGE value="Code updates" />
-    <MESSAGE value="Update read me" />
     <MESSAGE value="Prepare macOs infection process" />
     <MESSAGE value="Prepare macOS infection process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prepare macOS infection process" />
+    <MESSAGE value="Update read me" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update read me" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -885,7 +892,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Handlers/BootPersistanceHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
+        <state relative-caret-position="625">
           <caret line="217" column="92" selection-start-line="217" selection-start-column="92" selection-end-line="217" selection-end-column="92" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
@@ -899,8 +906,8 @@
       </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="15">
-            <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <first_editor relative-caret-position="105">
+            <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
             <folding />
           </first_editor>
           <second_editor />
