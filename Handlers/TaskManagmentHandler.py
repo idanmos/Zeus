@@ -43,7 +43,6 @@ class TaskManagmentHandler():
             strJson = json.dumps(devInfoDict, ensure_ascii=False)
             strJson = base64.encodebytes(strJson.encode())
             strJson = strJson.decode("UTF-8").replace("\n", "")
-            print("strJson: {0}".format(strJson))
 
             url = "http://192.168.0.102/control.php?task=deviceInfo&data={0}".format(strJson)
 
