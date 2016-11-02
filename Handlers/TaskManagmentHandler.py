@@ -1,10 +1,6 @@
 #!/usr/local/bin/python3
 
-try:
-    import urllib.request as requests
-except ImportError:
-    import urllib2 as requests
-
+import requests
 import threading
 
 from Providers.DeviceInfoProvider import DeviceInfoProvider
@@ -73,6 +69,7 @@ if __name__ == "__main__":
     #taskMgr = TaskManagmentHandler()
     #taskMgr.startTask()
 
+    """
     devInfoProvider = DeviceInfoProvider()
     devInfoDict = devInfoProvider.getDeviceInfo()
 
@@ -95,4 +92,9 @@ if __name__ == "__main__":
     print("\n\n")
 
     taskResponse = requests.urlopen(url).read()
-    print("taskResponse: %s" % taskResponse)
+    print("taskResponse: %s" % taskResponse)"""
+
+    url = "http://192.168.0.102/control.php?task=getConfigurations&agent=zeus"
+    #payload = dict(key1='value1', key2='value2')
+    r = requests.get(url)
+    print(r.text)

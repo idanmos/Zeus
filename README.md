@@ -29,6 +29,11 @@ This project is for educational purposes only!
  - [ ] Steal cookies
  - [ ] Steal passwords: Browsers, Outlook
 
+### Dependencies
+* PIL/Pillow
+* pyscreenshot
+* requests
+
 ### Command & Control
 Command and control server should be a whole new different project.
 
