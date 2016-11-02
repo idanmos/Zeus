@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python3
 
 try:
     import urllib.request as requests
@@ -34,7 +34,7 @@ class TaskManagmentHandler():
         taskThread.start()
 
     def executeTaskFromServer(self):
-        taskResponse = requests.urlopen("http://192.168.0.102/control.php?task=getTask&agent=zeus&deviceID=xxxx").read()
+        taskResponse = requests.urlopen("http://192.168.0.102/control.php?task=deviceInfo").read()
 
         if taskResponse["task"]:
             if len(taskResponse["task"]) > 0:
@@ -70,5 +70,29 @@ class TaskManagmentHandler():
 
 
 if __name__ == "__main__":
-    taskMgr = TaskManagmentHandler()
-    taskMgr.startTask()
+    #taskMgr = TaskManagmentHandler()
+    #taskMgr.startTask()
+
+    devInfoProvider = DeviceInfoProvider()
+    devInfoDict = devInfoProvider.getDeviceInfo()
+
+    import json
+    import base64
+
+    strJson = json.dumps(devInfoDict, ensure_ascii=False)
+    print(strJson)
+
+    print("\n\n")
+
+    strJson = base64.encodebytes(strJson.encode())
+    strJson = strJson.decode("UTF-8").replace("\n", "")
+    print(strJson)
+    print("\n\n")
+
+    url = "http://192.168.0.102/control.php?task=deviceInfo&data=%s" % strJson
+    print(url)
+
+    print("\n\n")
+
+    taskResponse = requests.urlopen(url).read()
+    print("taskResponse: %s" % taskResponse)

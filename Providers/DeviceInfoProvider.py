@@ -31,16 +31,20 @@ class DeviceInfoProvider():
             deviceInfo["cpuArchitecture"] = "32"
 
         # List of installed applications
-        if platform.system().lower() == "darwin":
-            installedApps = subprocess.check_output(['ls', '-l', '/Applications']).splitlines()
-            deviceInfo["installedApps"] = installedApps
+        deviceInfo["installedApps"] = "None"
+        #if platform.system().lower() == "darwin":
+            #installedApps = subprocess.check_output(['ls', '-l', '/Applications']).splitlines()
+            #deviceInfo["installedApps"] = installedApps
 
         # RAM (used and installed)
         totalMemory = psutil.virtual_memory().total
         availableMemory = psutil.virtual_memory().available
 
+        totalMemory = "%.2f" % (totalMemory / 1024 / 1024 / 1024)
+        availableMemory = "%.2f" % (availableMemory/1024/1024/1024)
+
         if totalMemory and availableMemory:
-            memory = {"total": totalMemory/1024/1024/1024, "available": availableMemory/1024/1024/1024}
+            memory = "{%s|%s}" % (totalMemory, availableMemory)
             deviceInfo["memory"] = memory
 
         # Local Date & Time
