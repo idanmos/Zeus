@@ -100,5 +100,4 @@ class TaskManagmentHandler():
 
 
 if __name__ == "__main__":
-    taskMgr = TaskManagmentHandler()
-    taskMgr.startTask()
+    print("[l] starting background timer thread")
